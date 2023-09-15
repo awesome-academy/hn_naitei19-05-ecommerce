@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-    @GetMapping("/base")
+    @GetMapping("/home")
     public String Getbase() {
         return "layout/user/base-layout";
     }
