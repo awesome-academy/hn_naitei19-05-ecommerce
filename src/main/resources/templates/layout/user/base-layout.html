@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org"
+
 >
 <head>
     <meta charset="UTF-8">
@@ -40,10 +41,7 @@
 <div>
     <div th:replace="layout/user/header :: header"></div>
 </div>
-
-<div>
-    <div th:replace="layout/user/body ::body"></div>
-</div>
+<div layout:fragment="content"></div>
 <div>
     <div th:replace="layout/user/footer :: footer"></div>
 </div>
