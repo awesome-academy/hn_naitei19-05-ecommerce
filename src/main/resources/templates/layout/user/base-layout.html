@@ -10,16 +10,13 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Task List</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
-    <!-- Css Styles -->
-    <!--    <link rel="stylesheet" th:src="@{/static/assets/css/elegant-icons.css}" type="text/css">-->
+<!--     Css Styles-->
     <link th:rel="stylesheet" th:href="@{assets/css/elegant-icons.css} " type="text/css"/>
-    <!--    <link rel="stylesheet" th:href="@{../../../static/assets/css/elegant-icons.css} "-->
-    <!--          type="text/css">-->
     <link rel="stylesheet" th:href="@{assets/css/bootstrap.min.css}"
           type="text/css">
     <link rel="stylesheet" th:href="@{assets/css/font-awesome.min.css}"
