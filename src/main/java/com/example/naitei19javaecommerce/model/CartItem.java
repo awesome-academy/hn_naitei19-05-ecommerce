@@ -35,4 +35,5 @@ public class CartItem {
     @Column(name = "modified_at")
     @UpdateTimestamp
     private LocalDateTime modifiedAt;
+
 }
