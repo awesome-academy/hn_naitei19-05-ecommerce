@@ -561,7 +561,7 @@ ol {
 -----------------------*/
 
 .hero {
-	padding-bottom: 50px;
+	padding-bottom: 10px;
 }
 
 .hero.hero-normal {
@@ -811,7 +811,7 @@ ol {
 -----------------------*/
 
 .featured {
-	padding-top: 80px;
+	padding-top: 40px;
 	padding-bottom: 40px;
 }
 
@@ -1172,6 +1172,10 @@ ol {
 
 .price-range-wrap .price-range .ui-slider-range.ui-corner-all.ui-widget-header:last-child {
 	background: #dd2222;
+}
+
+.gap{
+	gap: 5px;
 }
 
 .sidebar__item__color {
@@ -1653,6 +1657,10 @@ ol {
 .product__pagination a:last-child,
 .blog__pagination a:last-child {
 	margin-right: 0;
+}
+
+.product__pagination{
+	text-align: center;
 }
 
 /*---------------------

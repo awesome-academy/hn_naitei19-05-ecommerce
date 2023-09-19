@@ -35,7 +35,7 @@ public class User {
     private Integer role;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name= "id_user_detail", referencedColumnName = "id")
+    @JoinColumn(name = "id_user_detail", referencedColumnName = "id")
     private UserDetail userDetail;
 
     @Column(name = "is_active")
@@ -44,5 +44,4 @@ public class User {
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
-
 }
