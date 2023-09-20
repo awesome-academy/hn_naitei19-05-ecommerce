@@ -16,12 +16,14 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "carts")
 public class Cart {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private User user;
 
