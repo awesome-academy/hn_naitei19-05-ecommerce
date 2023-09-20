@@ -13,12 +13,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductRepository productRepository ;
+    private ProductRepository productRepository;
     @Autowired
     ImageRepository imageRepository;
 
@@ -37,19 +38,16 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
     @Override
     public List<ProductDTO> findProductRelatedById(Long categoryId, Long productId) {
         List<Product> relatedProducts = productRepository.findProductRelatedById(categoryId, productId);
-        return relatedProducts.stream().
-                map((relatedProduct) -> mapToProductDto(relatedProduct)).collect(Collectors.toList());
+        return relatedProducts.stream().map((relatedProduct) -> mapToProductDto(relatedProduct)).collect(Collectors.toList());
     }
 
     @Override
     public List<ImageDTO> findImageByProductId(Long productId) {
         List<Image> images = imageRepository.findImagesByProductId(productId);
-        return  images.stream().limit(4)
-                .map((image) -> mapToImageDto(image)).collect(Collectors.toList());
+        return images.stream().limit(4).map((image) -> mapToImageDto(image)).collect(Collectors.toList());
     }
 
     private Product mapToProduct(ProductDTO productDTO) {
@@ -71,9 +69,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ImageDTO mapToImageDto(Image image) {
-        ImageDTO imageDTO  = new ImageDTO();
+        ImageDTO imageDTO = new ImageDTO();
         BeanUtils.copyProperties(image, imageDTO);
         return imageDTO;
+    }
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> findAllByPrice(Double minPrice, Double maxPrice) {
+        return productRepository.findAllByPrice(minPrice, maxPrice);
+    }
+
+    @Override
+    public List<Product> filterProducts(List<String> selectedCategories, Double minPrice, Double maxPrice) {
+        List<Product> filteredProductsResult = new ArrayList<>();
+
+        if(selectedCategories.contains("All")){
+            return productRepository.findAllByPrice(minPrice, maxPrice);
+        }else {
+            for (String selectedCategory : selectedCategories) {
+                String selectedCategoryAfterRegax = selectedCategory.replaceAll("([a-z])([A-Z])", "$1 $2");
+                List<Product> products = productRepository.filterProductByCateAndPrice(selectedCategoryAfterRegax, minPrice, maxPrice);
+                filteredProductsResult.addAll(products);
+            }
+        }
+        return filteredProductsResult;
     }
 }
 
