@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thmyelead.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/user/base-layout">
+<head>
+  <title>Checkout</title>
+</head>
+<body layout:fragment="content">
+  <section class="breadcrumb-section set-bg" data-setbg="https://i.imgur.com/vkj4oeg.jpg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="breadcrumb__text">
+            <h2>Checkout</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="checkout spad">
+    <div class="container">
+      <div class="checkout__form">
+        <h4>Billing Details</h4>
+        <form th:action="@{/checkout}" th:object="${order}" method="post" >
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="checkout__input">
+                    <p>Fist Name<span>*</span></p>
+                    <input type="text"
+                           th:value="${items[0].cart.user.userDetail.firstName}" disabled>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="checkout__input">
+                    <p>Last Name<span>*</span></p>
+                    <input type="text"
+                           th:value="${items[0].cart.user.userDetail.lastName}" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="checkout__input">
+                <p>Address<span>*</span></p>
+                <input type="text" class="checkout__input__add"
+                       th:placeholder="${items[0].cart.user.userDetail.address}"
+                       th:field="*{receiveAddress}"
+                       th:value="${items[0].cart.user.userDetail.address}">
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="checkout__input">
+                    <p>Phone<span>*</span></p>
+                    <input type="text"
+                           th:placeholder="${items[0].cart.user.userDetail.phone}"
+                           th:field="*{receivePhone}"
+                           th:value="${items[0].cart.user.userDetail.phone}">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="checkout__input">
+                    <p>Email<span>*</span></p>
+                    <input type="text"
+                           th:value="${items[0].cart.user.userDetail.email}" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="checkout__input">
+                <p>Order notes</p>
+                <input type="text"
+                       placeholder="Notes about your order, e.g. special notes for delivery."
+                       th:field="*{note}"
+                       th:name="note"
+                       th:value="${note}">
+              </div>
+              <div class="checkout__input__checkbox">
+                <label for="acc">
+                  Create an account?
+                  <input type="checkbox" id="acc">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="checkout__order">
+                <h4>Your Order</h4>
+                <div class="checkout__order__products row">
+                  <span class="col">Products</span>
+                  <span class="col">Quantity</span>
+                  <span class="col">Total</span>
+                </div>
+                <ul th:each="item :${items}">
+                  <li class="row">
+                    <p th:text="${item.product.name}" class="col"></p>
+                    <p th:text="'x ' + ${item.quantity}" class="col"></p>
+                    <span th:text="${item.product.price * item.quantity} + ' VND'" class="col"></span>
+                  </li>
+                </ul>
+                <div class="checkout__order__total row">
+                  <span style="color: #a71d2a" class="col">Total</span>
+                  <span style="color: #a71d2a" class="col"
+                        th:field="*{totalQuantity}"
+                        th:text="'x ' + ${totalQuantity}">
+                  </span>
+                  <span style="color: #a71d2a" class="col"
+                        th:field="*{totalPrice}"
+                        th:text="${totalPrice} + ' VND'">
+                  </span>
+                </div>
+                <button type="submit" class="site-btn">PLACE ORDER</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

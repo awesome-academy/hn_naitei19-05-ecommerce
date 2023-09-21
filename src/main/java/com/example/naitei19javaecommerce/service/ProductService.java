@@ -2,6 +2,7 @@ package com.example.naitei19javaecommerce.service;
 
 import com.example.naitei19javaecommerce.dto.ImageDTO;
 import com.example.naitei19javaecommerce.dto.ProductDTO;
+import com.example.naitei19javaecommerce.model.Invoice;
 import com.example.naitei19javaecommerce.model.Product;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface ProductService {
     List<ProductDTO> searchByKeyword(String keyword);
 
     Product findProductById(Long id);
+
+    void updateQuantityProducts(Invoice invoice);
 }

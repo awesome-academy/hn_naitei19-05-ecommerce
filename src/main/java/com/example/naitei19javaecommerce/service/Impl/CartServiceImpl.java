@@ -5,6 +5,7 @@ import com.example.naitei19javaecommerce.model.User;
 import com.example.naitei19javaecommerce.model.UserDetail;
 import com.example.naitei19javaecommerce.repository.CartRepository;
 import com.example.naitei19javaecommerce.service.CartService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

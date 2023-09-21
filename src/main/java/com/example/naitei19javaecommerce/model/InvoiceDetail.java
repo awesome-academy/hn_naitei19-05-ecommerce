@@ -22,7 +22,7 @@ public class InvoiceDetail {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_invoice")
+    @JoinColumn(name = "id_invoice", referencedColumnName = "id")
     private Invoice invoice;
 
     @OneToOne
