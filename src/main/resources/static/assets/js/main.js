@@ -96,7 +96,7 @@
     });
 
 
-    $('.hero__categories__all').on('click', function(){
+    $('.hero__categories__all').on('click', function () {
         $('.hero__categories ul').slideToggle(400);
     });
 
@@ -222,3 +222,22 @@
     });
 
 })(jQuery);
+
+
+    /*-------------------
+    Delete item into cart
+    --------------------- */
+
+    function removeItem(id) {
+        fetch('/cart/' + id, {
+            method: 'DELETE',
+        }).then(function (response) {
+            if (response.ok) {
+                alertify.success('Delete Success!!');
+                // Reload the cart page to update the view
+                location.reload();
+            } else {
+                alertify.error('Delete Fail!!');
+            }
+        });
+    }
