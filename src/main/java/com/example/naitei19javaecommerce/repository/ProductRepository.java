@@ -37,4 +37,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             (:maxPrice IS NULL OR p.price <:maxPrice )
             """)
     List<Product> filterProductByCateAndPrice(String category, Double minPrice, Double maxPrice);
+
+    @Query("""
+            SELECT p
+            FROM Product p
+            INNER JOIN InvoiceDetail i_detail ON p.id = i_detail.product.id
+            WHERE i_detail.id = :invoiceDetailId 
+            """)
+    Product findProductByInvoiceDetailId(@Param("invoiceDetailId") Long invoiceDetailId);
 }

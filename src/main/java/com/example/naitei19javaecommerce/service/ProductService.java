@@ -20,5 +20,4 @@ public interface ProductService {
     List<Product> findAllByPrice(Double minPrice , Double maxPrice);
 
     List<Product> filterProducts(List<String> selectedCategories, Double minPrice , Double maxPrice);
-
 }

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thmyelead.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/user/base-layout">
+<head>
+    <link rel="stylesheet" th:href="@{/assets/css/invoice.css}"
+          type="text/css"/>
+    <title>Invoice Detail</title>
+</head>
+<body classname="snippet-body" layout:fragment="content">
+    <div class="container">
+        <div class="section-title">
+            <h2>Orders Detail</h2>
+        </div>
+        <article class="card" style="margin-bottom: 32px;">
+            <header class="card-header checkout__order__products"> My Orders Detail </header>
+            <div class="card-body">
+                <h6 style="margin-bottom: 8px;"><strong>Order ID: </strong><span th:text="${invoice.id}"></span></h6>
+                <article class="card">
+                    <div class="card-body row">
+                        <div class="col" th:switch="${invoice.status}">
+                            <strong>Status:</strong>
+                             <br>
+                            <span th:case="'1'">Order placed</span>
+                            <span th:case="'2'">Order confirmed</span>
+                            <span th:case="'3'">On the way</span>
+                            <span th:case="'4'">Order received</span>
+                            <span th:case="'5'" style="color: #a71d2a">Order Rejected</span>
+                        </div>
+                        <div class="col" th:if="${invoice.status == 5}">
+                            <strong>Rejection reason:</strong> <br> <span th:text="${invoice.rejectionReason}"></span>
+                        </div>
+                    </div>
+                </article>
+                <div class="track" th:if="${invoice.status le 4}">
+                    <div th:class="'step ' + (${invoice.status} ge 1 ? 'active' : '')">
+                        <span class="icon"><i class="fa fa-check"></i></span>
+                        <span class="text">Order placed</span>
+                    </div>
+                    <div th:class="'step ' + (${invoice.status} ge 2 ? 'active' : '')">
+                        <span class="icon"><i class="fa fa-user"></i></span>
+                        <span class="text">Order confirmed</span>
+                    </div>
+                    <div th:class="'step ' + (${invoice.status} ge 3 ? 'active' : '')">
+                        <span class="icon"><i class="fa fa-truck"></i></span>
+                        <span class="text">On the way</span>
+                    </div>
+                    <div th:class="'step ' + (${invoice.status} ge 4 ? 'active' : '')">
+                        <span class="icon"><i class="fa-solid fa-box"></i></span>
+                        <span class="text">Order received</span>
+                    </div>
+                </div>
+                <div class="track2 track" th:if="${invoice.status == 5}">
+                    <div class="step active">
+                        <span style="background-color: #a71d2a" class="icon"><i class="fa fa-check"></i></span>
+                        <span class="text">Order placed</span>
+                    </div>
+                    <div class="step active">
+                        <span style="background-color: #a71d2a;" class="icon"><strong>X</strong></span>
+                        <span class="text">Order Rejected</span>
+                    </div>
+                </div>
+                <hr>
+                <div style="margin-bottom: 20px;">
+                    <p style="font-size: 20px; font-weight: 700; color: #1c1c1c; margin-bottom: 16px;">Delivery Address</p>
+                    <ul style="list-style-type: none;">
+                        <li><p style="font-size: 16px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.user.username}"></p></li>
+                        <li><p style="font-size: 14px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.user.userDetail.phone}"></p></li>
+                        <li><p style="font-size: 14px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.user.userDetail.address}">Address</p></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="shoping__cart__table">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th class="shoping__product">Products</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="product : ${invoice.invoiceDetails}">
+                                        <td class="shoping__cart__item">
+                                            <img th:src="${product.product.imageAvatar}" alt="" style="width: 12%;">
+                                            <h5 th:text="${product.product.name}">Vegetable’s Package</h5>
+                                        </td>
+                                        <td class="shoping__cart__price" th:text="${product.product.price}">
+                                            $55.00
+                                        </td>
+                                        <td class="shoping__cart__quantity" th:text="${product.quantity}">
+                                            1
+                                        </td>
+                                        <td class="shoping__cart__total" th:text="${product.price}">
+                                            $110.00
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <h5></h5>
+                                        </td>
+                                        <td class="shoping__cart__price" style="color: #a71d2a">
+                                            Order Total:
+                                        </td>
+                                        <td class="shoping__cart__price" style="color: #a71d2a" th:text="${invoice.totalQuantity}">
+                                        </td>
+                                        <td class="shoping__cart__total" style="color: #a71d2a" th:text="${invoice.totalPrice}">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
