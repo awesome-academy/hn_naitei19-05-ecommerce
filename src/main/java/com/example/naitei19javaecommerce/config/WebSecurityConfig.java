@@ -43,7 +43,15 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()).formLogin(login -> login.loginPage("/login").loginProcessingUrl("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/home", true));
+                .defaultSuccessUrl("/home", true))
+                .logout(out -> out
+                        .logoutUrl("/logout").logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true) // Invalidate all sessions after logout
+                        .deleteCookies("JSESSIONID")
+//                        .addLogoutHandler(new CustomLogoutHandler(this.redisIndexedSessionRepository))
+//                        .logoutSuccessHandler((request, response, authentication) ->
+//                                SecurityContextHolder.clearContext()
+                );
         return http.build();
     }
 
