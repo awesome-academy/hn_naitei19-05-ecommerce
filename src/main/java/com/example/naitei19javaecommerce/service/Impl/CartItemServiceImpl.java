@@ -1,7 +1,6 @@
 package com.example.naitei19javaecommerce.service.Impl;
 
 import com.example.naitei19javaecommerce.model.CartItem;
-import com.example.naitei19javaecommerce.model.Product;
 import com.example.naitei19javaecommerce.repository.CartItemRepository;
 import com.example.naitei19javaecommerce.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +66,11 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public void removeItem(CartItem item) {
-
+    public boolean removeItem(Long id,Long userId) {
+        Integer result = cartItemRepository.removeItem(id, userId);
+        if(result != null) {
+            return true;
+        }
+        return false;
     }
-
 }

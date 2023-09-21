@@ -27,7 +27,7 @@
                             <a href="#"><i class="fa fa-pinterest-p"></i></a>
                         </div>
                         <div class="header__top__right__language">
-                            <img src="img/language.png" alt="">
+                            <img src="https://i.imgur.com/Yh5spE6.png" alt="">
                             <div>English</div>
                             <span class="arrow_carrot-down"></span>
                             <ul>
@@ -47,14 +47,14 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a th:src="@{/home}"><img src="https://i.imgur.com/sYak67I.png" alt=""></a>
+                    <a th:href="@{/home}"><img src="https://i.imgur.com/sYak67I.png" alt=""></a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="/home">Home</a></li>
-                        <li><a href="./shop-grid.html">Shop</a></li>
+                        <li class="active"><a th:href="@{/home}">Home</a></li>
+                        <li><a th:href="@{/shop}">Shop</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
                                 <li><a href="./shop-details.html">Shop Details</a></li>
@@ -83,6 +83,7 @@
         </div>
     </div>
 </header>
+
 <!-- Header Section End -->
 </body>
 </html>
