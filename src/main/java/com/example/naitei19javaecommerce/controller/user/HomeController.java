@@ -1,5 +1,6 @@
 package com.example.naitei19javaecommerce.controller.user;
 
+import com.example.naitei19javaecommerce.dto.ProductDTO;
 import com.example.naitei19javaecommerce.model.Product;
 import com.example.naitei19javaecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,17 @@ public class HomeController {
             }else {
                 model.addAttribute("filterProducts",filteredResult);
             }
+        return "user/search-page/index";
+    }
+
+    @PostMapping("/search")
+    public String searchProductByKeyword(@RequestParam(name = "keyword", required = false) String keyword,
+                                         Model model) {
+        List<ProductDTO> products = productService.searchByKeyword(keyword);
+        if (products == null || products.isEmpty()) {
+            model.addAttribute("message","Không tồn tại sản phẩm!");
+        }
+        model.addAttribute("searchedProducts", products);
         return "user/search-page/index";
     }
 }
