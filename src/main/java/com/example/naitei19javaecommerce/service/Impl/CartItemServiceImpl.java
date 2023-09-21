@@ -1,8 +1,12 @@
 package com.example.naitei19javaecommerce.service.Impl;
 
+import com.example.naitei19javaecommerce.dto.ProductDTO;
 import com.example.naitei19javaecommerce.model.CartItem;
+import com.example.naitei19javaecommerce.model.Product;
 import com.example.naitei19javaecommerce.repository.CartItemRepository;
+import com.example.naitei19javaecommerce.repository.ProductRepository;
 import com.example.naitei19javaecommerce.service.CartItemService;
+import com.example.naitei19javaecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,9 @@ public class CartItemServiceImpl implements CartItemService {
     @Autowired
     private final CartItemRepository cartItemRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     public CartItemServiceImpl(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
     }
@@ -23,9 +30,27 @@ public class CartItemServiceImpl implements CartItemService {
     public List<CartItem> findAll() {
         return cartItemRepository.findAll();
     }
+
     @Override
-    public List<CartItem> CartItemByUserId(Long id){
+    public List<CartItem> CartItemByUserId(Long id) {
         return cartItemRepository.findCartItemsByUserId(id);
+    }
+
+    @Override
+    public boolean updateItem(Long id, Long userId, int quantity) {
+        Product curentProduct = productRepository.getReferenceById(id);
+        if (quantity < curentProduct.getQuantity()) {
+            Integer result = cartItemRepository.updateItem(quantity, id, userId);
+            if (result != null) {
+                return true;
+            }
+        } else {
+            Integer result = cartItemRepository.updateItem(curentProduct.getQuantity(), id, userId);
+            if (result != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -66,9 +91,9 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public boolean removeItem(Long id,Long userId) {
+    public boolean removeItem(Long id, Long userId) {
         Integer result = cartItemRepository.removeItem(id, userId);
-        if(result != null) {
+        if (result != null) {
             return true;
         }
         return false;

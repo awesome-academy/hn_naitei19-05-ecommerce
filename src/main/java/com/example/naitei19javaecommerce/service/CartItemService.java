@@ -10,7 +10,9 @@ public interface CartItemService extends BaseService<Long, CartItem> {
 
     public List<CartItem> CartItemByUserId(Long id);
 
-    public boolean removeItem(Long id,Long userId);
+    public boolean updateItem(Long id, Long userId, int quantity);
+
+    public boolean removeItem(Long id, Long userId);
 
     public BigDecimal calculateTotalCartPrice(List<CartItem> cartItems);
 

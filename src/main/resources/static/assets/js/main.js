@@ -200,8 +200,8 @@
     });
 
     /*-------------------
-		Quantity change
-	--------------------- */
+       Quantity change
+       --------------------- */
     var proQty = $('.pro-qty');
     proQty.prepend('<span class="dec qtybtn">-</span>');
     proQty.append('<span class="inc qtybtn">+</span>');
@@ -220,24 +220,46 @@
         }
         $button.parent().find('input').val(newVal);
     });
-
 })(jQuery);
 
+        /*-------------------
+            Update quantity item into cart
+            --------------------- */
 
-    /*-------------------
-    Delete item into cart
-    --------------------- */
+        function updateItem(id) {
+            // Get the updated quantity from the input field
+            const quantity = document.getElementById(`quantity-item-${id}`).value;
 
-    function removeItem(id) {
-        fetch('/cart/' + id, {
-            method: 'DELETE',
-        }).then(function (response) {
-            if (response.ok) {
-                alertify.success('Delete Success!!');
-                // Reload the cart page to update the view
-                location.reload();
-            } else {
-                alertify.error('Delete Fail!!');
-            }
-        });
-    }
+            const url = `/cart/update?id=${id}&quantity=${quantity}`;
+            // Construct the URL for the PUT request
+            fetch(url, {
+                method: 'POST',
+            }).then(function (response) {
+                if (quantity == 0) {
+                    removeItem(id);
+                }
+                if (response.ok) {
+                    alertify.success('Update Success!!');
+                    // Reload the cart page to update the view
+                    location.reload();
+                } else {
+                    alertify.error('Update Fail!!');
+                }
+            });
+        }
+
+        /*-------------------
+        Delete item into cart
+        --------------------- */
+
+        function removeItem(id) {
+            fetch('/cart/' + id, {
+                method: 'DELETE',
+            }).then(function (response) {
+                if (response.ok) {
+                    alertify.success('Delete Success!!');
+                } else {
+                    alertify.error('Delete Fail!!');
+                }
+            });
+        }
