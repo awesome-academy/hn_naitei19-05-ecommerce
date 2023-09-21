@@ -39,10 +39,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> filterProductByCateAndPrice(String category, Double minPrice, Double maxPrice);
 
     @Query("""
-            SELECT p
-            FROM Product p
-            INNER JOIN InvoiceDetail i_detail ON p.id = i_detail.product.id
-            WHERE i_detail.id = :invoiceDetailId 
-            """)
-    Product findProductByInvoiceDetailId(@Param("invoiceDetailId") Long invoiceDetailId);
+        SELECT p
+        FROM Product p
+        WHERE p.name LIKE %:keyword%
+        OR p.description LIKE %:keyword%
+        OR p.category.name LIKE %:keyword%
+        OR p.nameBrand LIKE %:keyword%
+        OR p.color LIKE %:keyword%
+        """)
+    List<Product> searchByKeyword(@Param("keyword") String keyword);
 }

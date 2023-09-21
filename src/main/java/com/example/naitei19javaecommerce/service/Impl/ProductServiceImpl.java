@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
@@ -97,6 +98,15 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return filteredProductsResult;
+    }
+
+    @Override
+    public List<ProductDTO> searchByKeyword(String keyword) {
+        List<Product> products = productRepository.searchByKeyword(keyword);
+        if (!products.isEmpty()) {
+            return products.stream().map((product) -> mapToProductDto(product)).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 }
 
