@@ -1,14 +1,15 @@
 package com.example.naitei19javaecommerce.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 import java.math.BigDecimal;
 
-@Data
+//@Data
+
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class InvoiceDetail {
     @JoinColumn(name = "id_invoice")
     private Invoice invoice;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name= "id_product", referencedColumnName = "id")
     private Product product ;
 

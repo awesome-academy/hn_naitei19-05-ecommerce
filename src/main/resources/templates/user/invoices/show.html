@@ -66,8 +66,10 @@
                     <p style="font-size: 20px; font-weight: 700; color: #1c1c1c; margin-bottom: 16px;">Delivery Address</p>
                     <ul style="list-style-type: none;">
                         <li><p style="font-size: 16px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.user.username}"></p></li>
-                        <li><p style="font-size: 14px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.user.userDetail.phone}"></p></li>
-                        <li><p style="font-size: 14px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.user.userDetail.address}">Address</p></li>
+                        <li><p style="font-size: 14px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.user.userDetail.email}"></p></li>
+                        <li><p style="font-size: 14px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.receiveAddress}"></p></li>
+                        <li><p style="font-size: 14px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.receivePhone}"></p></li>
+                        <li><p style="font-size: 14px; color: #1c1c1c; margin-bottom: 8px;" th:text="${invoice.note}"></p></li>
                     </ul>
                 </div>
                 <div>
