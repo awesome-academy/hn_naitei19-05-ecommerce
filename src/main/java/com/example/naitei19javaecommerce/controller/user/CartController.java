@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,16 +30,30 @@ public class CartController {
         return "user/cart/layout-cart";
     }
 
-    @DeleteMapping(value = "/{id}")
-    public String delete(Model model,@PathVariable Long id) {
+    @PostMapping(value = "/update")
+    public String update(Model model, @RequestParam("id") Long id, @RequestParam("quantity") int quantity) {
         Long userId = 1L;
-        if(cartItemService.removeItem(id,userId)) {
-            String message = "Delete Success";
-            model.addAttribute("alert", message);
-        }else {
-            String message = "Item not exits!!! Please reload again!!!";
-            model.addAttribute("alert", message);
+        String message;
+        if (cartItemService.updateItem(id, userId, quantity)) {
+            message = "Update Success";
+        } else {
+            message = "Update fail";
         }
-        return "user/cart/shopping-cart";
+        model.addAttribute("alert", message);
+        return "user/cart/layout-cart";
+    }
+
+
+    @DeleteMapping(value = "/{id}")
+    public String delete(Model model, @PathVariable Long id) {
+        String message;
+        Long userId = 1L;
+        if (cartItemService.removeItem(id, userId)) {
+            message = "Delete Success";
+        } else {
+           message = "Item not exits!!! Please reload again!!!";
+        }
+        model.addAttribute("alert", message);
+        return "user/cart/layout-cart";
     }
 }

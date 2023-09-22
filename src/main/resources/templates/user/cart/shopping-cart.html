@@ -53,10 +53,11 @@
                             <td class="shoping__cart__price">
                                 <span th:text="${item.product.price}"></span>
                             </td>
-                            <td class="shoping__cart__quantity">
+                            <td class="shoping__cart__quantity" th:onclick="'updateItem(' + ${item.product.id} + ')'">
                                 <div class="quantity">
                                     <div class="pro-qty">
-                                        <input type="text" th:value="${item.quantity}">
+                                        <input th:id="'quantity-item-' + ${item.product.id}" type="text"
+                                               th:value="${item.quantity}">
                                     </div>
                                 </div>
                             </td>
@@ -99,6 +100,7 @@
 <!-- Shoping Cart Section End -->
 
 <script th:inline="javascript">
+    updateItem(id);
     removeItem(id);
 </script>
 </body>
