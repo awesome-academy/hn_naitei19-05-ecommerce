@@ -1,6 +1,7 @@
 package com.example.naitei19javaecommerce.service.security;
 
 import com.example.naitei19javaecommerce.model.User;
+import com.example.naitei19javaecommerce.model.UserDetail;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,4 +57,9 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public User getUser() {
+        return user;
+    }
+
 }

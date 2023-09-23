@@ -44,25 +44,25 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr th:each="item : ${items}">
+                        <tbody th:each="item : ${items}">
+                        <tr class="cart-item" th:id="'remove-item-' + ${item.product.id}">
                             <td class="shoping__cart__item">
                                 <img th:src="${item.product.imageAvatar}" alt="Product Image">
                                 <h5 th:text="${item.product.name}"></h5>
                             </td>
                             <td class="shoping__cart__price">
-                                <span th:text="${item.product.price}"></span>
+                                <span th:text="${item.product.price} + ' $'" th:id="'price-item-' + ${item.product.id}"></span>
                             </td>
                             <td class="shoping__cart__quantity" th:onclick="'updateItem(' + ${item.product.id} + ')'">
                                 <div class="quantity">
                                     <div class="pro-qty">
-                                        <input th:id="'quantity-item-' + ${item.product.id}" type="text"
+                                        <input type="text" th:id="'quantity-item-' + ${item.product.id}"
                                                th:value="${item.quantity}">
                                     </div>
                                 </div>
                             </td>
-                            <td class="shoping__cart__total">
-                                <span th:text="${item.quantity * item.product.price}"></span>
+                            <td class="shoping__cart__total" th:id="'display-price-' + ${item.product.id}"
+                                th:text="${#numbers.formatDecimal(item.quantity * item.product.price,0,2)} + ' $'">
                             </td>
                             <td class="shoping__cart__item__close">
                                 <a th:onclick="'removeItem(' + ${item.product.id} + ')'">
@@ -80,16 +80,14 @@
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
                     <a th:href="@{/shop}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                    <a src="" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                        Upadate Cart</a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="shoping__checkout">
                     <h5>Cart Total</h5>
                     <ul>
-                        <li>Subtotal <span th:text="${totalQuantity}"></span></li>
-                        <li>TotalPrice <span th:text="${totalPrice}"></span></li>
+                        <li>TotalQuantity <span th:text="${totalQuantity}" th:id="totalQuantity"></span></li>
+                        <li>TotalPrice <span th:text="${totalPrice} + ' $'" th:id="totalPrice"></span></li>
                     </ul>
                     <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
@@ -99,10 +97,6 @@
 </section>
 <!-- Shoping Cart Section End -->
 
-<script th:inline="javascript">
-    updateItem(id);
-    removeItem(id);
-</script>
 </body>
 
 </html>

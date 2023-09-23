@@ -1,16 +1,16 @@
 package com.example.naitei19javaecommerce.service.Impl;
 
-import com.example.naitei19javaecommerce.dto.ProductDTO;
+import com.example.naitei19javaecommerce.model.Cart;
 import com.example.naitei19javaecommerce.model.CartItem;
 import com.example.naitei19javaecommerce.model.Product;
 import com.example.naitei19javaecommerce.repository.CartItemRepository;
 import com.example.naitei19javaecommerce.repository.ProductRepository;
 import com.example.naitei19javaecommerce.service.CartItemService;
-import com.example.naitei19javaecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -20,10 +20,12 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    public CartItemServiceImpl(CartItemRepository cartItemRepository) {
+
+    public CartItemServiceImpl(CartItemRepository cartItemRepository, ProductRepository productRepository) {
         this.cartItemRepository = cartItemRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -86,8 +88,21 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public void addItem(CartItem item) {
-
+    public void addItem(Cart cart, Product product,Long userId, int quantity) {
+        //Check if the current product is in the Cart. If so, just update the quantity
+        if (cartItemRepository.findCartItems(userId,product.getId()) != null){
+            int currentQuantity = cartItemRepository.findCartItems(userId,product.getId()).getQuantity();
+            cartItemRepository.findCartItems(userId,product.getId()).setQuantity(currentQuantity + quantity);
+            cartItemRepository.save(cartItemRepository.findCartItems(userId,product.getId()));
+        }else {
+            //Create a new cart to insert
+            CartItem cartItem = new CartItem();
+            cartItem.setCart(cart);
+            cartItem.setProduct(product);
+            cartItem.setQuantity(quantity);
+            cartItem.setModifiedAt(LocalDateTime.now());
+            cartItemRepository.save(cartItem);
+        }
     }
 
     @Override
