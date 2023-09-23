@@ -3,7 +3,9 @@ package com.example.naitei19javaecommerce.controller.user;
 import com.example.naitei19javaecommerce.dto.ProductDTO;
 import com.example.naitei19javaecommerce.model.Product;
 import com.example.naitei19javaecommerce.service.ProductService;
+import com.example.naitei19javaecommerce.service.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import java.util.List;
 @Controller
 public class HomeController {
     private final ProductService productService;
+    private CustomUserDetails customUserDetails;
 
     @Autowired
     public HomeController(ProductService productService) {
@@ -26,7 +29,11 @@ public class HomeController {
 
         List<Product> outStandingProducts = productService.getOutStandingProducts();
         model.addAttribute("outStandingProducts", outStandingProducts);
-
+        customUserDetails = BaseController.loadCurrentUser();
+        if (customUserDetails != null){
+            String firstName = customUserDetails.getUserDetail().getFirstName();
+            model.addAttribute("firstName", firstName);
+        }
         return "user/static-pages/home-page";
     }
 

@@ -15,8 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -40,17 +38,20 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()).authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/home/**","/login").permitAll()
-                        .requestMatchers("/admin/**").hasAuthority("1")
-                        .anyRequest().authenticated())
+                .requestMatchers("/home/**", "/shop/**", "/login/**").permitAll()
+                .requestMatchers("/admin/**").hasAuthority("0")
+                .requestMatchers("/cart/**").hasAuthority("1")
+                .anyRequest().authenticated())
                 .formLogin(login -> login.loginPage("/login").loginProcessingUrl("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/home", true))
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .successHandler(new CustomAuthenticationSuccessHandler()))
+//                .defaultSuccessUrl("/home", true))
+
                 .logout(out -> out
-                                .logoutUrl("/logout").logoutSuccessUrl("/login")
-                                .invalidateHttpSession(true) // Invalidate all sessions after logout
-                                .deleteCookies("JSESSIONID")
+                        .logoutUrl("/logout").logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true) // Invalidate all sessions after logout
+                        .deleteCookies("JSESSIONID")
 //                        .addLogoutHandler(new CustomLogoutHandler(this.redisIndexedSessionRepository))
 //                        .logoutSuccessHandler((request, response, authentication) ->
 //                                SecurityContextHolder.clearContext()
