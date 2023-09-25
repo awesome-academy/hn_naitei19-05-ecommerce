@@ -29,17 +29,14 @@ public class HomeController {
 
         List<Product> outStandingProducts = productService.getOutStandingProducts();
         model.addAttribute("outStandingProducts", outStandingProducts);
-        customUserDetails = BaseController.loadCurrentUser();
-        if (customUserDetails != null){
-            String firstName = customUserDetails.getUserDetail().getFirstName();
-            model.addAttribute("firstName", firstName);
-        }
+        BaseController.loadCurrentUser(model);
         return "user/static-pages/home-page";
     }
 
     @GetMapping("/shop")
     public String Shop(Model model) {
         model.addAttribute("allProducts", productService.findAll());
+        BaseController.loadCurrentUser(model);
         return "user/search-page/index";
     }
 
