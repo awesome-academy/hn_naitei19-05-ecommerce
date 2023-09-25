@@ -22,4 +22,6 @@ public interface ProductService {
     List<Product> filterProducts(List<String> selectedCategories, Double minPrice , Double maxPrice);
 
     List<ProductDTO> searchByKeyword(String keyword);
+
+    Product findProductById(Long id);
 }

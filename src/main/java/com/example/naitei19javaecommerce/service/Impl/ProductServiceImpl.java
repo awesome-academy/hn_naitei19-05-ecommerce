@@ -108,5 +108,13 @@ public class ProductServiceImpl implements ProductService {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public Product findProductById(Long id) {
+        if(productRepository.getReferenceById(id) != null){
+            return productRepository.getReferenceById(id);
+        }
+        return null;
+    }
 }
 
