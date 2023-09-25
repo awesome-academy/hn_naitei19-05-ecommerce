@@ -3,9 +3,7 @@ package com.example.naitei19javaecommerce.controller.user;
 import com.example.naitei19javaecommerce.dto.ProductDTO;
 import com.example.naitei19javaecommerce.model.Product;
 import com.example.naitei19javaecommerce.service.ProductService;
-import com.example.naitei19javaecommerce.service.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,17 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-
 @Controller
 public class HomeController {
     private final ProductService productService;
-    private CustomUserDetails customUserDetails;
 
     @Autowired
     public HomeController(ProductService productService) {
         this.productService = productService;
     }
-
     @GetMapping("/home")
     public String Home(Model model) {
 

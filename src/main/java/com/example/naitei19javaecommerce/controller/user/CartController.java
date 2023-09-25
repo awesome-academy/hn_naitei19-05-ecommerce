@@ -99,4 +99,18 @@ public class CartController {
         model.addAttribute("totalPrice", totalPrice);
         return "layout/user/header";
     }
+
+    @DeleteMapping(value = "/reset")
+    public String reset(Model model) {
+        Long userId = userService.getUserisLogin().getId();
+        String status;
+        if (cartItemService.resetCart(userId)) {
+            status = "ok";
+        }
+        else {
+            status = "fail";
+        }
+        model.addAttribute("alert", status);
+        return "user/cart/layout-cart";
+    }
 }

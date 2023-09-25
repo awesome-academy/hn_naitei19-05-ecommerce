@@ -290,6 +290,22 @@
             });
         }
 
+        /*-------------------
+        reset item into cart after payment
+        --------------------- */
+
+        function resetItem() {
+            fetch('/cart/reset',{
+                method: 'DELETE',
+            }).then(function (response) {
+                if (response.ok) {
+                    alertify.success('Reset Success!!');
+                    location.replace("/home")
+                } else {
+                    alertify.error('Reset Fail!!');
+                }
+            });
+        }
 
         function updatedisplayItemCart() {
             const itemRows = document.querySelectorAll(".cart-item");

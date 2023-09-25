@@ -83,6 +83,17 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
+    public boolean resetCart(Long userId) {
+        //Check cart is empty
+        if(cartItemRepository.findCartItemsByUserId(userId).isEmpty() == false) {
+            // delete all cartitem by userid
+            cartItemRepository.deleteAll(cartItemRepository.findCartItemsByUserId(userId));
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public CartItem findById(Long id) {
         return null;
     }
