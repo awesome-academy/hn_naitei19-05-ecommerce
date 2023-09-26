@@ -13,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -21,10 +22,13 @@ import java.util.List;
 public class InvoiceDTO {
     private Long id;
     private User user;
-    private List<InvoiceDetailDTO> invoiceDetails;
+    private Set<InvoiceDetail> invoiceDetails;
     private Integer status;
     private String rejectionReason;
     private Integer totalQuantity;
     private BigDecimal totalPrice;
+    private String note;
+    private String receiveAddress;
+    private String receivePhone;
     private LocalDateTime createdAt;
 }
