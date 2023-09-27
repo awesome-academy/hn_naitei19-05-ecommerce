@@ -19,4 +19,6 @@ public interface CartItemService extends BaseService<Long, CartItem> {
     public BigDecimal calculateTotalCartPrice(List<CartItem> cartItems);
 
     public int totalQuantityItem(List<CartItem> cartItems);
+
+    public boolean resetCart(Long userId);
 }
