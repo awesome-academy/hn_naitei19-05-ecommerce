@@ -46,6 +46,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .collect(Collectors.toList());
         return invoiceDTOs;
     }
+
     public List<PaymentHistoryResponse> loadAllInvoices(String dataDate) {
         List<PaymentHistoryResponse> paymentHistoryResponseList = new ArrayList<>();
         List<Invoice> invoices = invoiceRepository.findAllWithDateAndStatus(dataDate);
@@ -56,5 +57,10 @@ public class InvoiceServiceImpl implements InvoiceService {
             paymentHistoryResponseList.add(paymentHistoryResponse);
         }
         return paymentHistoryResponseList;
+    }
+
+    @Override
+    public List<Invoice> findNewOrderList() {
+        return invoiceRepository.findNewOrderList();
     }
 }
