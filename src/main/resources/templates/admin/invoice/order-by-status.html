@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thmyelead.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/admin/base-layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+
+<body>
+<!-- Featured Section Begin -->
+<div class="page-breadcrumb" layout:fragment="content">
+  <div class="row">
+    <div class="d-flex mb-5 col-6 mt-4 justify-content-lg-start">
+      <img class="col-2"
+           src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/2491px-Logo_of_Twitter.svg.png"
+           width="10%">
+      <div class=" d-flex no-block  flex-column ">
+        <h4 class="page-title mb-2">MERCHANT PAYMENT</h4>
+        <h5 class="page-title">Store HANOI BACH KHOA</h5>
+      </div>
+    </div>
+
+    <div class="d-flex mb-5 col-3 mt-4 justify-content-lg-start align-items-center">
+        <h5 class="text-black-50 ">TOTAL ORDER </h5>
+        <h5 class="text-center text-uppercase ml-3 " style="font-size: 25px" th:text="${orderAmount}"></h5>
+    </div>
+
+  </div>
+  <div class="container-fluid">
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="">
+            <div>
+              <table id="zero_config" class="table table-striped ">
+                <thead>
+                <tr class="text-center">
+                  <th class="col-1" scope="col"> No</th>
+                  <th class="col-2" scope="col">Time</th>
+                  <th class="col-2" scope="col"> Phone Number</th>
+                  <th class="col-5" scope="col">Address</th>
+                  <th class="col-1" scope="col"> Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" th:each="newOrder,rowStat : ${newOrders}">
+                  <td th:text="${rowStat.index + 1}"></td>
+                  <td th:text="${#temporals.format(newOrder.createdAt,'yyyy/MM/dd HH:mm:ss')}"></td>
+                  <td th:text="${newOrder.receivePhone}"></td>
+                  <td th:text="${newOrder.receiveAddress}"></td>
+                  <th>
+                    <button class="btn btn-success">View Detail</button>
+                  </th>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End PAge Content -->
+  </div>
+</div>
+<!-- Featured Section End -->
+</body>
+</html>

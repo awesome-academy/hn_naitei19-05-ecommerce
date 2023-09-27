@@ -1,6 +1,7 @@
 package com.example.naitei19javaecommerce.controller.admin;
 
 import com.example.naitei19javaecommerce.dto.PaymentHistoryResponse;
+import com.example.naitei19javaecommerce.model.Invoice;
 import com.example.naitei19javaecommerce.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,14 +18,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/invoices")
 public class InvoiceController {
+
     private final InvoiceService invoiceService;
 
     @Autowired
-    public InvoiceController(InvoiceService invoiceService ) {
+    public InvoiceController(InvoiceService invoiceService) {
         this.invoiceService = invoiceService;
     }
 
-    @GetMapping("/payment")
+    @GetMapping("")
     public String getPaymentHistory(Model model,
                                     @RequestParam(name = "dateData", required = false) String dateData) {
         BigDecimal totalSales = new BigDecimal("0.0");
@@ -42,5 +44,13 @@ public class InvoiceController {
         model.addAttribute("dateFilter", dateData);
         model.addAttribute("payments", paymentHistoryResponseList);
         return "admin/invoice/index";
+    }
+
+    @GetMapping("/orders/by-waiting")
+    public String ordersByStatus(Model model) {
+        List<Invoice> newOrders = invoiceService.findNewOrderList();
+        model.addAttribute("newOrders", newOrders);
+        model.addAttribute("orderAmount", newOrders.size());
+        return "admin/invoice/order-by-status";
     }
 }
