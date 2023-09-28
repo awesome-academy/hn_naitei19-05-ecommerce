@@ -3,6 +3,8 @@ package com.example.naitei19javaecommerce.service.Impl;
 import com.example.naitei19javaecommerce.dto.ImageDTO;
 import com.example.naitei19javaecommerce.dto.ProductDTO;
 import com.example.naitei19javaecommerce.model.Image;
+import com.example.naitei19javaecommerce.model.Invoice;
+import com.example.naitei19javaecommerce.model.InvoiceDetail;
 import com.example.naitei19javaecommerce.model.Product;
 import com.example.naitei19javaecommerce.repository.ImageRepository;
 import com.example.naitei19javaecommerce.repository.ProductRepository;
@@ -115,6 +117,13 @@ public class ProductServiceImpl implements ProductService {
             return productRepository.getReferenceById(id);
         }
         return null;
+    }
+
+    @Override
+    public void updateQuantityProducts(Invoice invoice) {
+        for (InvoiceDetail invoiceDetail: invoice.getInvoiceDetails()) {
+            productRepository.updateProductQuantity(invoiceDetail.getProduct().getId(), invoiceDetail.getQuantity());
+        }
     }
 }
 

@@ -3,8 +3,6 @@ package com.example.naitei19javaecommerce.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,7 +27,7 @@ public class Invoice {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "invoice")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "invoice", cascade = CascadeType.PERSIST)
     private Set<InvoiceDetail> invoiceDetails;
 
     @Column(name = "status")
@@ -56,5 +54,4 @@ public class Invoice {
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
-
 }
