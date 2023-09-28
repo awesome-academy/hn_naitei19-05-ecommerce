@@ -23,7 +23,7 @@
                         </h3>
                         <div class="d-flex mt-5 mb-3 ">
                             <div class="col-2 ml-3 font-weight-bolder"> Customer Name :</div>
-                            <div class="col-4" th:text="${orderDetail.user.username}"></div>
+                            <div class="col-4" th:text="${orderDetail.user.userDetail.lastName}"></div>
                             <div class="col-2  font-weight-bolder"> Phone Number :</div>
                             <div class="col-4" th:text="${orderDetail.receivePhone}"></div>
                         </div>
@@ -77,8 +77,38 @@
                             </tbody>
                         </table>
                         <div th:if="${orderDetail.status == 1}" class="mt-5 mb-5 d-flex justify-content-around">
-                            <button class="btn btn-success">Confirm Order</button>
-                            <button class="btn btn-danger">Cancel Order</button>
+                            <form th:action="@{/admin/invoices/orders/__${orderDetail.id}__}" method="post">
+                                <input type="hidden" name="status" th:value="4" />
+                                <button type="submit" class="btn btn-success">Confirm Order</button>
+                            </form>
+
+                            <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                                Reject Order
+                            </a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Reject Order</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form th:action="@{/admin/invoices/orders/__${orderDetail.id}__}" method="post"  >
+                                            <div class="form-group p-4">
+                                                <label for="message-text" class="col-form-label">Message:</label>
+                                                <textarea class="form-control" th:name="reason"  th:value="${reason}" id="message-text"></textarea>
+                                            </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="hidden" name="status" th:value="5" />
+                                            <button type="submit" class="btn btn-danger">Reject Order</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

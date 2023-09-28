@@ -9,3 +9,11 @@ server.port=
 server.servlet.context-path=
 
 security.enable-csrf =
+
+spring.mail.host=
+spring.mail.port=
+spring.mail.username=
+spring.mail.password=
+spring.mail.properties.mail.smtp.auth=
+spring.mail.properties.mail.smtp.starttls.enable=
+spring.mail.properties.mail.smtp.starttls.required=

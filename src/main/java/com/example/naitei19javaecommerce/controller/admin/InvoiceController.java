@@ -7,10 +7,7 @@ import com.example.naitei19javaecommerce.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -59,6 +56,15 @@ public class InvoiceController {
     @GetMapping("/orders/{id}")
     public String getOrderDetail(Model model , @PathVariable(value = "id") Long orderId){
         InvoiceDTO orderDetailResponse = invoiceService.findInvoiceById(orderId);
+        model.addAttribute("orderDetail",orderDetailResponse);
+        return "admin/invoice/order-detail";
+    }
+
+    @PostMapping("/orders/{id}")
+    public String HandleOrder(Model model,@PathVariable(value = "id") Long orderId,@ModelAttribute("reason") String reason ,
+                               @ModelAttribute("status") Integer status ){
+        InvoiceDTO orderDetailResponse = invoiceService.findInvoiceById(orderId);
+        invoiceService.sendConfirmMail(orderDetailResponse,status,reason);
         model.addAttribute("orderDetail",orderDetailResponse);
         return "admin/invoice/order-detail";
     }

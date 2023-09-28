@@ -12,8 +12,11 @@ import com.example.naitei19javaecommerce.request.OrderRequest;
 import com.example.naitei19javaecommerce.service.CartItemService;
 import com.example.naitei19javaecommerce.service.InvoiceService;
 import com.example.naitei19javaecommerce.service.ProductService;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +39,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}")
+    private String sender;
 
     @Override
     public InvoiceDTO findInvoiceById(Long id) {
@@ -80,9 +89,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     public List<Invoice> findNewOrderList() {
         return invoiceRepository.findNewOrderList();
     }
+
     @Transactional
     public void saveInvoice(OrderRequest orderRequest, List<CartItem> cartItems, User user) {
-        if (orderRequest.getReceiveAddress().compareTo("") == 0){
+        if (orderRequest.getReceiveAddress().compareTo("") == 0) {
             orderRequest.setReceiveAddress(user.getUserDetail().getAddress());
         }
         if (orderRequest.getReceivePhone().compareTo("") == 0) {
@@ -104,5 +114,29 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceRepository.save(invoice);
         cartItemService.resetCart(user.getId());
         productService.updateQuantityProducts(invoice);
+    }
+
+    public void sendConfirmMail(InvoiceDTO invoice, Integer status,String reason) {
+            invoice.setStatus(status);
+            invoiceRepository.updateInvoice(status,reason,invoice.getId());
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setFrom(sender);
+            mailMessage.setTo(invoice.getUser().getUsername());
+            mailMessage.setSubject("Ecommerce-5 Store Order Delivery");
+            if(status == Status.ORDER_RECEIVED.getCode()) {
+                mailMessage.setText("Dear " + invoice.getUser().getUserDetail().getLastName() + "! \n" +
+                        " Thanks for choosing Ecommerce-5 ™!\n" +
+                        " Your Order Id  :" + invoice.getId() + "\n" +
+                        " Payment Type : Cash\n" +
+                        " Total cost :" + invoice.getTotalPrice() + " VNĐ\n" +
+                        " We will delivery to:" + invoice.getReceiveAddress() + "\n" +
+                        " with phone number :" + invoice.getReceivePhone() + "\n");
+            }else{
+                mailMessage.setText("Dear " + invoice.getUser().getUserDetail().getLastName() + "! \n" +
+                        " This order delivery to" +  invoice.getReceiveAddress()  +" has been rejected.\n"+
+                        " with reason :" + reason + "\n" +
+                        " We hope that you will continue buy our products next time." );
+            }
+            javaMailSender.send(mailMessage);
     }
 }
