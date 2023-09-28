@@ -19,4 +19,6 @@ public interface InvoiceService {
     List<Invoice> findNewOrderList();
 
     void saveInvoice(OrderRequest orderRequest, List<CartItem> cartItems, User user);
+
+    void sendConfirmMail(InvoiceDTO invoiceDTO,Integer status,String reason);
 }
