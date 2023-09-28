@@ -125,5 +125,12 @@ public class ProductServiceImpl implements ProductService {
             productRepository.updateProductQuantity(invoiceDetail.getProduct().getId(), invoiceDetail.getQuantity());
         }
     }
+
+    @Override
+    public void updateRejectProductQuantity(Invoice invoice) {
+        for (InvoiceDetail invoiceDetail: invoice.getInvoiceDetails()) {
+            productRepository.updateRejectProductQuantity(invoiceDetail.getProduct().getId(), invoiceDetail.getQuantity());
+        }
+    }
 }
 

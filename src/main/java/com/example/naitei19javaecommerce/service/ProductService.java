@@ -27,4 +27,8 @@ public interface ProductService {
     Product findProductById(Long id);
 
     void updateQuantityProducts(Invoice invoice);
+
+    void updateRejectProductQuantity(Invoice invoice);
+
+
 }
