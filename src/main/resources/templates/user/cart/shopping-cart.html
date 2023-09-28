@@ -89,7 +89,7 @@
                         <li>TotalQuantity <span th:text="${totalQuantity}" th:id="totalQuantity"></span></li>
                         <li>TotalPrice <span th:text="${totalPrice} + ' $'" th:id="totalPrice"></span></li>
                     </ul>
-                    <a th:onclick="'resetItem()'" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a th:onclick="'resetItem()'" th:href="@{/checkout}" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>
