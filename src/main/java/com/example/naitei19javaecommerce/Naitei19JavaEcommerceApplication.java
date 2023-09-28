@@ -8,9 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableScheduling
 public class Naitei19JavaEcommerceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(Naitei19JavaEcommerceApplication.class, args);
     }
-
 }

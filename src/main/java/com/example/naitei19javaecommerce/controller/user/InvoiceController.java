@@ -5,12 +5,12 @@ import com.example.naitei19javaecommerce.model.Invoice;
 import com.example.naitei19javaecommerce.service.InvoiceService;
 import com.example.naitei19javaecommerce.service.ProductService;
 import com.example.naitei19javaecommerce.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -33,6 +33,21 @@ public class InvoiceController {
         return "user/invoices/list";
     }
 
+    @PostMapping("")
+    public String cancelInvoice(@RequestParam("id") Long invoiceId,
+                                Model model) {
+        Long userId = userService.getUserisLogin().getId();
+        InvoiceDTO invoiceDTO  = invoiceService.findInvoiceByIdAndUserId(invoiceId, userId);
+        String message;
+        if (invoiceService.cancelInvoice(invoiceDTO)) {
+            message = "ok";
+        } else {
+            message = "error";
+        }
+        model.addAttribute("alert", message);
+        return "redirect:/invoices";
+    }
+
     @GetMapping("/{invoiceId}")
     public String show(@PathVariable("invoiceId") Long id,
                        Model model) {
@@ -41,6 +56,6 @@ public class InvoiceController {
             return "errors/404";
         }
         model.addAttribute("invoice", invoiceDTO);
-        return "user/invoices/show";
+        return "user/invoices/layout-invoice";
     }
 }

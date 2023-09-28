@@ -5,7 +5,8 @@ public enum Status {
     ORDER_CONFIRMED(2, "Order confirmed"),
     ON_THE_WAY(3, "On the way"),
     ORDER_RECEIVED(4, "Order received"),
-    ORDER_REJECTED(5, "Order Rejected");
+    ORDER_REJECTED(5, "Order Rejected"),
+    ORDER_CANCELED(6, "Order Canceled");
 
     private final Integer code;
     private final String description;
