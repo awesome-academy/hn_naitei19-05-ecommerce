@@ -21,4 +21,6 @@ public interface CartItemService extends BaseService<Long, CartItem> {
     public int totalQuantityItem(List<CartItem> cartItems);
 
     public boolean resetCart(Long userId);
+
+    public void cleanupExpiredCarts();
 }

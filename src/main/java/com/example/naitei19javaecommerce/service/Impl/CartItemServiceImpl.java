@@ -6,11 +6,14 @@ import com.example.naitei19javaecommerce.model.Product;
 import com.example.naitei19javaecommerce.repository.CartItemRepository;
 import com.example.naitei19javaecommerce.repository.ProductRepository;
 import com.example.naitei19javaecommerce.service.CartItemService;
+import com.example.naitei19javaecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -22,6 +25,8 @@ public class CartItemServiceImpl implements CartItemService {
     @Autowired
     private final ProductRepository productRepository;
 
+    @Autowired
+    private UserService userService;
 
     public CartItemServiceImpl(CartItemRepository cartItemRepository, ProductRepository productRepository) {
         this.cartItemRepository = cartItemRepository;
@@ -124,4 +129,22 @@ public class CartItemServiceImpl implements CartItemService {
         }
         return false;
     }
+
+    private static final int CART_EXPIRATION_HOURS = 24 * 30 * 3; //Expiration time is 90 days
+    @Override
+    @Scheduled(fixedRate = 86400000) //Run every day
+    public void cleanupExpiredCarts() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        List<CartItem> cartItems = cartItemRepository.findAll();
+
+        for (CartItem cartItem : cartItems) {
+            LocalDateTime itemModifiedAt = cartItem.getModifiedAt();
+            long hoursSinceLastModified = currentTime.until(itemModifiedAt, ChronoUnit.HOURS);
+
+            if (hoursSinceLastModified >= CART_EXPIRATION_HOURS) {
+                cartItemRepository.removeItem(cartItem.getId(), userService.getUserisLogin().getId());
+            }
+        }
+    }
+
 }
