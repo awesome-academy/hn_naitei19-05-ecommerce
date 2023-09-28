@@ -76,7 +76,7 @@
                                     <td th:text="${payment.invoice.totalPrice}"></td>
                                     <td th:text="${payment.invoice.note}"></td>
                                     <th>
-                                        <button class="btn btn-success">Detail</button>
+                                        <a th:href="@{/admin/invoices/orders/__${payment.invoice.id}__}" class="btn btn-success">Detail</a>
                                     </th>
                                 </tr>
                                 </tbody>

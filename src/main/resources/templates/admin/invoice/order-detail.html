@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thmyelead.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/admin/base-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<!-- Featured Section Begin -->
+<div class="page-breadcrumb" layout:fragment="content">
+    <div class="container-fluid">
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="">
+                        <h3 class="mb-5  mt-4 page-title text-center">
+                            ORDER DETAIL
+                        </h3>
+                        <div class="d-flex mt-5 mb-3 ">
+                            <div class="col-2 ml-3 font-weight-bolder"> Customer Name :</div>
+                            <div class="col-4" th:text="${orderDetail.user.username}"></div>
+                            <div class="col-2  font-weight-bolder"> Phone Number :</div>
+                            <div class="col-4" th:text="${orderDetail.receivePhone}"></div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <div class="col-2 ml-3 font-weight-bolder">Address:</div>
+                            <div class="col-10" th:text="${orderDetail.receiveAddress}"></div>
+                        </div>
+                        <div class="d-flex mb-5">
+                            <div class="col-2 ml-3 font-weight-bolder">Note:</div>
+                            <div class="col-10" th:text="${orderDetail.note}"></div>
+                        </div>
+                        <h5 class="mb-4  mt-5 page-title text-center">
+                            Product Detail
+                        </h5>
+                        <table class="table table-invoice ">
+                            <thead>
+                            <tr class="text-center">
+                                <th class="col-1" scope="col"> No</th>
+                                <th class="col-5" scope="col">Product Name</th>
+                                <th class="col-2" scope="col">Quantity</th>
+                                <th class="col-2" scope="col">Price</th>
+                                <th class="col-2" scope="col">Discount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center" th:each="products,rowStat : ${orderDetail.invoiceDetails}">
+                                <td th:text="${rowStat.index + 1}"></td>
+                                <td th:text="${products.product.name}"></td>
+                                <td th:text="${products.quantity}"></td>
+                                <td th:text="${products.product.price}"></td>
+                                <td>0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <h5 class="mb-4  mt-5 page-title text-center">
+                            Payment
+                        </h5>
+                        <table class="table table-invoice ">
+                            <thead>
+                            <tr class="text-center">
+                                <th class="col-6" scope="col">Payment Method</th>
+                                <th class="col-6" scope="col">Total Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center">
+                                <td>Cash</td>
+                                <td th:text="${orderDetail.totalPrice}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div th:if="${orderDetail.status == 1}" class="mt-5 mb-5 d-flex justify-content-around">
+                            <button class="btn btn-success">Confirm Order</button>
+                            <button class="btn btn-danger">Cancel Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End PAge Content -->
+    </div>
+</div>
+<!-- Featured Section End -->
+</body>
+</html>

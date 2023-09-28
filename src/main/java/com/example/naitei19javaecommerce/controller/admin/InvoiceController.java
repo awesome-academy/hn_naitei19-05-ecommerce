@@ -1,5 +1,6 @@
 package com.example.naitei19javaecommerce.controller.admin;
 
+import com.example.naitei19javaecommerce.dto.InvoiceDTO;
 import com.example.naitei19javaecommerce.dto.PaymentHistoryResponse;
 import com.example.naitei19javaecommerce.model.Invoice;
 import com.example.naitei19javaecommerce.service.InvoiceService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,4 +55,12 @@ public class InvoiceController {
         model.addAttribute("orderAmount", newOrders.size());
         return "admin/invoice/order-by-status";
     }
+
+    @GetMapping("/orders/{id}")
+    public String getOrderDetail(Model model , @PathVariable(value = "id") Long orderId){
+        InvoiceDTO orderDetailResponse = invoiceService.findInvoiceById(orderId);
+        model.addAttribute("orderDetail",orderDetailResponse);
+        return "admin/invoice/order-detail";
+    }
+
 }
