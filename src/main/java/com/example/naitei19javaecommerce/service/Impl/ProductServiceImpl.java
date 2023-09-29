@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> filterProducts(List<String> selectedCategories, Double minPrice, Double maxPrice) {
         List<Product> filteredProductsResult = new ArrayList<>();
 
-        if(selectedCategories.contains("All")){
+        if(selectedCategories == null || selectedCategories.contains("All")){
             return productRepository.findAllByPrice(minPrice, maxPrice);
         }else {
             for (String selectedCategory : selectedCategories) {
