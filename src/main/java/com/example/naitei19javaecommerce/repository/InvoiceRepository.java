@@ -12,7 +12,10 @@ import java.util.List;
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
     @Query("SELECT i FROM Invoice i WHERE i.user.id = :userId ORDER BY i.createdAt DESC")
-    List<Invoice> findProductRelatedById(@Param("userId") Long userId);
+    List<Invoice> findInvoicesByUser(@Param("userId") Long userId);
+
+    @Query("SELECT i FROM Invoice i WHERE i.user.id = :userId and i.status = :status ORDER BY i.createdAt DESC")
+    List<Invoice> findInvoicesByUserAndStatus(@Param("userId") Long userId, @Param("status") Integer status);
 
     @Query(value = "SELECT * FROM invoices where DATE(created_at) = :dataDate and status = 4 ", nativeQuery = true)
     List<Invoice> findAllWithDateAndStatus(String dataDate);

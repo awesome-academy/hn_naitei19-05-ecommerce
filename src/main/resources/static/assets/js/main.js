@@ -350,3 +350,51 @@
                 });
             }
         }
+
+        /*-------------------
+        get invoices
+        --------------------- */
+
+        function getInvoices(status) {
+            const url = `/invoices/filter?status=${status}`;
+            window.location.href = url;
+            fetch(url,{
+                method: 'GET',
+            }).then(function (response) {
+                if (response.ok) {
+                    alertify.success('Success!!');
+                } else {
+                    alertify.error('Fail!!');
+                }
+            });
+        }
+
+        // get value tabIndex from URL
+        function getTabIndexFromURL() {
+            var url = window.location.href;
+            var match = url.match(/status=(\d+)/);
+            if (match) {
+                return parseInt(match[1]);
+            }
+            return 0;
+        }
+
+        function changeTab(tabIndex) {
+            // Get tab-list
+            var tabs = document.querySelectorAll('.nav-tabs .nav-link');
+            // remove "active" all tab
+            tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            // add "active" into tab
+            tabs[tabIndex].classList.add('active');
+        }
+
+        // Change active-tab when reload
+        function changeTabOnLoad() {
+            var tabIndex = getTabIndexFromURL();
+            changeTab(tabIndex);
+        }
+
+        // change tab-active when load page
+        window.onload = changeTabOnLoad;

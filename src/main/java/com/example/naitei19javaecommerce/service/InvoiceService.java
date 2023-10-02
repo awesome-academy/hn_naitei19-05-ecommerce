@@ -12,9 +12,7 @@ import java.util.List;
 public interface InvoiceService {
     InvoiceDTO findInvoiceById(Long id);
 
-    InvoiceDTO findInvoiceByIdAndUserId(Long id, Long userId);
-
-    List<InvoiceDTO> findInvoicesListByUserId(Long id);
+    List<InvoiceDTO> findInvoicesListByUserIdAndStatus(Long userId, Integer status);
 
     List<PaymentHistoryResponse> loadAllInvoices(String dateData);
 
