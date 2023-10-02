@@ -38,7 +38,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()).authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/home/**", "/shop/**", "/login/**","/filter/**").permitAll()
+                .requestMatchers("/home/**", "/shop/**", "/login/**","/filter/**", "/register/**").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("0")
                 .requestMatchers("/cart/**").hasAuthority("1")
                 .anyRequest().authenticated())
