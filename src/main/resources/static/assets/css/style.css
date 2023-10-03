@@ -171,6 +171,16 @@ ol {
 	letter-spacing: 2px;
 }
 
+ .cancel-btn {
+	color: #6f6f6f;
+	padding: 8px 16px;
+	background: #f5f5f5;
+	font-size: 14px;
+	width: -webkit-fill-available;
+	text-align: center;
+	border-radius: 6px;
+}
+
 .site-btn {
 	font-size: 14px;
 	color: #ffffff;

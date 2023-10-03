@@ -36,6 +36,7 @@
                                                 <span th:case="'3'">On the way</span>
                                                 <span th:case="'4'">Order received</span>
                                                 <span th:case="'5'" style="color: #a71d2a">Order Rejected</span>
+                                                <span th:case="'6'" style="color: #a71d2a">Order Canceled</span>
                                             </div>
                                         </span>
                                         <div class="col" th:if="${invoice.status == 5}">
@@ -83,8 +84,10 @@
                                     </div>
                                     <hr class="my-3">
                                 </div>
-                                <div>
-                                <h4 style="color: #a71d2a" th:text="'Order total: '+ ${invoice.totalPrice} + ' VND'"> </h4>
+                                <div class="row">
+                                    <div class="col-9">
+                                        <h4 style="color: #a71d2a" th:text="'Order total: '+ ${invoice.totalPrice} + ' VND'"> </h4>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,6 +51,17 @@ public class InvoiceServiceImpl implements InvoiceService {
     public InvoiceDTO findInvoiceById(Long id) {
         Invoice invoice = invoiceRepository.findById(id).orElseGet(() -> null);
         InvoiceDTO invoiceDTO = new InvoiceDTO();
+        if (invoice != null) {
+            BeanUtils.copyProperties(invoice, invoiceDTO);
+            return invoiceDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public InvoiceDTO findInvoiceByIdAndUserId(Long id, Long userId) {
+        InvoiceDTO invoiceDTO = new InvoiceDTO();
+        Invoice invoice = invoiceRepository.findInvoicesByIdAndUserId(id, userId);
         if (invoice != null) {
             BeanUtils.copyProperties(invoice, invoiceDTO);
             return invoiceDTO;
@@ -148,5 +160,18 @@ public class InvoiceServiceImpl implements InvoiceService {
         catch(Exception e){
             return false;
         }
+    }
+
+    @Override
+    @Transactional
+    public boolean cancelInvoice(InvoiceDTO invoiceDTO) {
+        Invoice invoice = new Invoice();
+        BeanUtils.copyProperties(invoiceDTO, invoice);
+        if (Objects.equals(invoice.getStatus(), Status.ORDER_PLACED.getCode())) {
+            invoiceRepository.updateInvoice(Status.ORDER_CANCELED.getCode(), "", invoice.getId());
+            productService.updateRejectProductQuantity(invoice);
+            return true;
+        }
+        return false;
     }
 }

@@ -12,6 +12,8 @@ import java.util.List;
 public interface InvoiceService {
     InvoiceDTO findInvoiceById(Long id);
 
+    InvoiceDTO findInvoiceByIdAndUserId(Long id, Long userId);
+
     List<InvoiceDTO> findInvoicesListByUserId(Long id);
 
     List<PaymentHistoryResponse> loadAllInvoices(String dateData);
@@ -21,4 +23,6 @@ public interface InvoiceService {
     void saveInvoice(OrderRequest orderRequest, List<CartItem> cartItems, User user);
 
     boolean sendConfirmMail(InvoiceDTO invoiceDTO,Integer status,String reason);
+
+    boolean cancelInvoice(InvoiceDTO invoice);
 }

@@ -19,6 +19,8 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
     @Query(" select i from Invoice i where i.status = 1")
     List<Invoice> findNewOrderList();
+    @Query(" select i from Invoice i where i.id = :id and i.user.id = :userId")
+    Invoice findInvoicesByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
     @Modifying
     @Query("""

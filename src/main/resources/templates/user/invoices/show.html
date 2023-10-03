@@ -8,18 +8,20 @@
           type="text/css"/>
     <title>Invoice Detail</title>
 </head>
-<body classname="snippet-body" layout:fragment="content">
+<body classname="snippet-body">
     <div class="container">
         <div class="section-title">
             <h2>Orders Detail</h2>
         </div>
         <article class="card" style="margin-bottom: 32px;">
-            <header class="card-header checkout__order__products"> My Orders Detail </header>
+            <header class="card-header checkout__order__products">
+                My Orders Detail
+            </header>
             <div class="card-body">
                 <h6 style="margin-bottom: 8px;"><strong>Order ID: </strong><span th:text="${invoice.id}"></span></h6>
                 <article class="card">
-                    <div class="card-body row">
-                        <div class="col" th:switch="${invoice.status}">
+                    <div class="card-body row" id="invoice-status">
+                        <div class="col" th:switch="${invoice.status}" id="status">
                             <strong>Status:</strong>
                              <br>
                             <span th:case="'1'">Order placed</span>
@@ -59,6 +61,16 @@
                     <div class="step active">
                         <span style="background-color: #a71d2a;" class="icon"><strong>X</strong></span>
                         <span class="text">Order Rejected</span>
+                    </div>
+                </div>
+                <div class="track2 track" th:if="${invoice.status == 6}">
+                    <div class="step active">
+                        <span style="background-color: #a71d2a" class="icon"><i class="fa fa-check"></i></span>
+                        <span class="text">Order placed</span>
+                    </div>
+                    <div class="step active">
+                        <span style="background-color: #a71d2a;" class="icon"><strong>X</strong></span>
+                        <span class="text">Order Canceled</span>
                     </div>
                 </div>
                 <hr>
@@ -118,10 +130,45 @@
                             </div>
                         </div>
                     </div>
+                    <div class="shoping__cart__btns" th:if="${invoice.status == 1}">
+                        <button data-toggle="modal"
+                                data-target="#exampleModalCenter"
+                                style="padding: 8px 16px; border: 1px;"
+                                class="primary-btn cart-btn cancel-btn offset-7">CANCEL ORDER
+                        </button>
+                    </div>
+                    <div class="modal fade" id="exampleModalCenter"
+                         tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        <strong>Do you want to cancel this order?</strong>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+<!--                                <form th:action="@{/invoices}" method="post"  >-->
+                                    <div class="modal-footer">
+                                        <button type="hidden" class="btn btn-secondary" data-dismiss="modal">
+                                            No
+                                        </button>
+                                        <button th:onclick="'cancelOrder(' + ${invoice.id} + ')'"
+                                                class="btn btn-danger"
+                                                id="modal-btn-si">
+                                            Yes
+                                        </button>
+                                    </div>
+<!--                                </form>-->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
     </div>
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

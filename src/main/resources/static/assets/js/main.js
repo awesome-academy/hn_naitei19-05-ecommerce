@@ -325,3 +325,28 @@
             totalPriceElement.textContent = "$" + subtotal.toFixed(2);
             totalQuantityElement.textContent = totalQuantity ;
         }
+
+        /*-------------------
+        return noti after cancel order
+        --------------------- */
+        function cancelOrder(id) {
+            if (id != null) {
+                const url = `/invoices?id=${id}`;
+                // Construct the URL for the POST request
+                fetch(url, {
+                    method: 'POST',
+                }).then(function (response) {
+                    console.log(response);
+                    if (response.ok) {
+                        alertify.success(' Success!!');
+                        setTimeout(function () {
+                            $('#exampleModalCenter').modal('hide');
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        alertify.error(' Fail!!');
+                        $('#exampleModalCenter').modal('hide');
+                    }
+                });
+            }
+        }
