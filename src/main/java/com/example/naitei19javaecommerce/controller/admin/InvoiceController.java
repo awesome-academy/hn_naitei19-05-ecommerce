@@ -64,7 +64,9 @@ public class InvoiceController {
     public String HandleOrder(Model model,@PathVariable(value = "id") Long orderId,@ModelAttribute("reason") String reason ,
                                @ModelAttribute("status") Integer status ){
         InvoiceDTO orderResponse = invoiceService.findInvoiceById(orderId);
-        invoiceService.sendConfirmMail(orderResponse,status,reason);
+        if(!invoiceService.sendConfirmMail(orderResponse,status,reason)){
+            return "errors/404";
+        }
         model.addAttribute("order",orderResponse);
         return "admin/invoice/order-detail";
     }
