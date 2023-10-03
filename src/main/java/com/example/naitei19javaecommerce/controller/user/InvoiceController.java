@@ -37,6 +37,21 @@ public class InvoiceController {
         return "user/invoices/list";
     }
 
+    @PostMapping("")
+    public String cancelInvoice(@RequestParam("id") Long invoiceId,
+                                Model model) {
+        Long userId = userService.getUserisLogin().getId();
+        InvoiceDTO invoiceDTO  = invoiceService.findInvoiceByIdAndUserId(invoiceId, userId);
+        String message;
+        if (invoiceService.cancelInvoice(invoiceDTO)) {
+            message = "ok";
+        } else {
+            message = "error";
+        }
+        model.addAttribute("alert", message);
+        return "redirect:/invoices";
+    }
+
     @GetMapping("/filter")
     public String filter(@RequestParam(name = "status", required = false) Integer status,
                        Model model) {

@@ -167,4 +167,15 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         return false;
     }
+
+    @Override
+    public InvoiceDTO findInvoiceByIdAndUserId(Long id, Long userId) {
+        InvoiceDTO invoiceDTO = new InvoiceDTO();
+        Invoice invoice = invoiceRepository.findInvoicesByIdAndUserId(id, userId);
+        if (invoice != null) {
+            BeanUtils.copyProperties(invoice, invoiceDTO);
+            return invoiceDTO;
+        }
+        return null;
+    }
 }
