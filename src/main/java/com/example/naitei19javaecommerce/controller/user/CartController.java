@@ -5,6 +5,7 @@ import com.example.naitei19javaecommerce.service.CartItemService;
 import com.example.naitei19javaecommerce.service.CartService;
 import com.example.naitei19javaecommerce.service.ProductService;
 import com.example.naitei19javaecommerce.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,17 +89,6 @@ public class CartController {
         return "user/cart/layout-cart";
     }
 
-    // display quantity and price of item in header
-    @GetMapping(value = "/quantity")
-    public String display(Model model) {
-        Long userId = userService.getUserisLogin().getId();
-        List<CartItem> items = cartItemService.CartItemByUserId(userId);
-        int totalQuantity = cartItemService.totalQuantityItem(items);
-        BigDecimal totalPrice = cartItemService.calculateTotalCartPrice(items);
-        model.addAttribute("totalQuantity", totalQuantity);
-        model.addAttribute("totalPrice", totalPrice);
-        return "layout/user/header";
-    }
 
     @DeleteMapping(value = "/reset")
     public String reset(Model model) {

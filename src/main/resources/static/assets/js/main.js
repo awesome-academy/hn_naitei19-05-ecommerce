@@ -280,13 +280,17 @@
             fetch('/cart/' + id, {
                 method: 'DELETE',
             }).then(function (response) {
-                if (response.ok) {
-                    document.getElementById(`remove-item-${id}`).remove();
-                    alertify.success('Delete Success!!');
-                    updatedisplayItemCart();
-                } else {
-                    alertify.error('Delete Fail!!');
-                }
+                alertify.confirm("Are you sure delete item?",
+                    function(){
+                        if(response.ok){
+                            alertify.success('Ok');
+                            document.getElementById(`remove-item-${id}`).remove();
+                            updatedisplayItemCart();
+                        }
+                    },
+                    function(){
+                        alertify.error('Cancel');
+                    });
             });
         }
 
@@ -322,7 +326,7 @@
             const totalPriceElement = document.getElementById("totalPrice");
             const totalQuantityElement = document.getElementById("totalQuantity");
 
-            totalPriceElement.textContent = "$" + subtotal.toFixed(2);
+            totalPriceElement.textContent = subtotal.toFixed(2) + "$";
             totalQuantityElement.textContent = totalQuantity ;
         }
 

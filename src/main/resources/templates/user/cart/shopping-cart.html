@@ -51,7 +51,7 @@
                                 <h5 th:text="${item.product.name}"></h5>
                             </td>
                             <td class="shoping__cart__price">
-                                <span th:text="${item.product.price} + ' $'" th:id="'price-item-' + ${item.product.id}"></span>
+                                <span th:text="${item.product.price} + '$'" th:id="'price-item-' + ${item.product.id}"></span>
                             </td>
                             <td class="shoping__cart__quantity" th:onclick="'updateItem(' + ${item.product.id} + ')'">
                                 <div class="quantity">
@@ -62,7 +62,7 @@
                                 </div>
                             </td>
                             <td class="shoping__cart__total" th:id="'display-price-' + ${item.product.id}"
-                                th:text="${#numbers.formatDecimal(item.quantity * item.product.price,0,2)} + ' $'">
+                                th:text="${#numbers.formatDecimal(item.quantity * item.product.price,0,2)} + '$'">
                             </td>
                             <td class="shoping__cart__item__close">
                                 <a th:onclick="'removeItem(' + ${item.product.id} + ')'">
