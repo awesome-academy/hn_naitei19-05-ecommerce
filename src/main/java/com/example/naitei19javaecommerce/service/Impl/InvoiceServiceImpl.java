@@ -117,19 +117,19 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Transactional
-    public void sendConfirmMail(InvoiceDTO invoice, Integer status,String reason) {
+    public boolean sendConfirmMail(InvoiceDTO invoice, Integer status,String reason) {
+        try{
             invoice.setStatus(status);
-            invoiceRepository.updateInvoice(status,reason,invoice.getId());
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(sender);
-            mailMessage.setTo(invoice.getUser().getUsername());
+            mailMessage.setTo(invoice.getUser().getUserDetail().getEmail());
             mailMessage.setSubject("Ecommerce-5 Store Order Delivery");
             if(status == Status.ORDER_RECEIVED.getCode()) {
                 mailMessage.setText("Dear " + invoice.getUser().getUserDetail().getLastName() + "! \n" +
                         " Thanks for choosing Ecommerce-5 ™!\n" +
                         " Your Order Id  :" + invoice.getId() + "\n" +
                         " Payment Type : Cash\n" +
-                        " Total cost :" + invoice.getTotalPrice() + " VNĐ\n" +
+                        " Total cost :" + invoice.getTotalPrice() + " $\n" +
                         " We will delivery to:" + invoice.getReceiveAddress() + "\n" +
                         " with phone number :" + invoice.getReceivePhone() + "\n");
             }else{
@@ -142,5 +142,11 @@ public class InvoiceServiceImpl implements InvoiceService {
                         " We hope that you will continue buy our products next time." );
             }
             javaMailSender.send(mailMessage);
+            invoiceRepository.updateInvoice(status,reason,invoice.getId());
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 }
