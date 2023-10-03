@@ -11,6 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,27 +29,24 @@ public class InvoiceController {
     @GetMapping("")
     public String list(Model model) {
         Long userId = userService.getUserisLogin().getId();
-        List<InvoiceDTO> invoices = invoiceService.findInvoicesListByUserId(userId);
+        List<InvoiceDTO> invoices = invoiceService.findInvoicesListByUserIdAndStatus(userId, -1);
         if (invoices.isEmpty()){
-            model.addAttribute("message", "Chưa có hóa đơn nào!");
+            model.addAttribute("message", "There are no invoices yet!");
         }
         model.addAttribute("invoices", invoices);
         return "user/invoices/list";
     }
 
-    @PostMapping("")
-    public String cancelInvoice(@RequestParam("id") Long invoiceId,
-                                Model model) {
+    @GetMapping("/filter")
+    public String filter(@RequestParam(name = "status", required = false) Integer status,
+                       Model model) {
         Long userId = userService.getUserisLogin().getId();
-        InvoiceDTO invoiceDTO  = invoiceService.findInvoiceByIdAndUserId(invoiceId, userId);
-        String message;
-        if (invoiceService.cancelInvoice(invoiceDTO)) {
-            message = "ok";
-        } else {
-            message = "error";
+        List<InvoiceDTO> invoiceDTOs = invoiceService.findInvoicesListByUserIdAndStatus(userId, status);
+        if (invoiceDTOs.isEmpty()){
+            model.addAttribute("message", "There are no invoices yet!");
         }
-        model.addAttribute("alert", message);
-        return "redirect:/invoices";
+        model.addAttribute("invoices", invoiceDTOs);
+        return "user/invoices/list";
     }
 
     @GetMapping("/{invoiceId}")

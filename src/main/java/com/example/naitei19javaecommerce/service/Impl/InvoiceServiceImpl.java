@@ -59,30 +59,23 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public InvoiceDTO findInvoiceByIdAndUserId(Long id, Long userId) {
-        InvoiceDTO invoiceDTO = new InvoiceDTO();
-        Invoice invoice = invoiceRepository.findInvoicesByIdAndUserId(id, userId);
-        if (invoice != null) {
-            BeanUtils.copyProperties(invoice, invoiceDTO);
-            return invoiceDTO;
+    public List<InvoiceDTO> findInvoicesListByUserIdAndStatus(Long userId, Integer status) {
+        List<Invoice> invoices;
+        if (status < 0) { // Pass in a number less than 0 if you want to get all invoices
+            invoices = invoiceRepository.findInvoicesByUser(userId);
+        } else {
+            invoices = invoiceRepository.findInvoicesByUserAndStatus(userId, status);
         }
-        return null;
-    }
-
-    @Override
-    public List<InvoiceDTO> findInvoicesListByUserId(Long userId) {
-        List<Invoice> invoices = invoiceRepository.findProductRelatedById(userId);
         if (invoices.isEmpty()) {
             return Collections.emptyList();
         }
-        List<InvoiceDTO> invoiceDTOs = invoices.stream()
+        return invoices.stream()
                 .map(invoice -> {
                     InvoiceDTO invoiceDTO = new InvoiceDTO();
                     BeanUtils.copyProperties(invoice, invoiceDTO);
                     return invoiceDTO;
                 })
                 .collect(Collectors.toList());
-        return invoiceDTOs;
     }
 
     public List<PaymentHistoryResponse> loadAllInvoices(String dataDate) {
