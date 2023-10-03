@@ -40,4 +40,7 @@ public class UserDetail {
     @UpdateTimestamp
     private LocalDateTime modifiedAt;
 
+    @OneToOne(mappedBy = "userDetail")
+    private User user;
+
 }
