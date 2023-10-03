@@ -95,7 +95,7 @@
                   <li class="row">
                     <p th:text="${item.product.name}" class="col"></p>
                     <p th:text="'x ' + ${item.quantity}" class="col"></p>
-                    <span th:text="${item.product.price * item.quantity} + ' VND'" class="col"></span>
+                    <span th:text="${item.product.price * item.quantity} + ' $'" class="col"></span>
                   </li>
                 </ul>
                 <div class="checkout__order__total row">
@@ -106,7 +106,7 @@
                   </span>
                   <span style="color: #a71d2a" class="col"
                         th:field="*{totalPrice}"
-                        th:text="${totalPrice} + ' VND'">
+                        th:text="${totalPrice} + ' $'">
                   </span>
                 </div>
                 <button type="submit" class="site-btn">PLACE ORDER</button>

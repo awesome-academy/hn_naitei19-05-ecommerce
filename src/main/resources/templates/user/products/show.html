@@ -47,7 +47,15 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
                         <h3 th:text="${product.name}"></h3>
-                        <div class="product__details__price" th:text="${product.price} + ' '+ VND"></div>
+<!--                        <div class="product__details__rating">-->
+<!--                            <i class="fa fa-star"></i>-->
+<!--                            <i class="fa fa-star"></i>-->
+<!--                            <i class="fa fa-star"></i>-->
+<!--                            <i class="fa fa-star"></i>-->
+<!--                            <i class="fa fa-star-half-o"></i>-->
+<!--                            <span>(18 reviews)</span>-->
+<!--                        </div>-->
+                        <div class="product__details__price" th:text="${product.price} + ' $'"></div>
                         <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
@@ -116,8 +124,8 @@
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a th:href="@{'/' + ${productRelated.id}}" th:text="${productRelated.name}"></a></h6>
-                            <h5 th:text="${productRelated.price}+ ' '+ VND"></h5>
+                            <h6><a href="#" th:text="${productRelated.name}"></a></h6>
+                            <h5 th:text="'$' +${productRelated.price}"></h5>
                         </div>
                     </div>
                 </div>
