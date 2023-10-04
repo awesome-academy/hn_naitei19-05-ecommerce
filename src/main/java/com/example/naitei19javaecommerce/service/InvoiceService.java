@@ -14,13 +14,15 @@ public interface InvoiceService {
 
     List<InvoiceDTO> findInvoicesListByUserIdAndStatus(Long userId, Integer status);
 
+    InvoiceDTO findInvoiceByIdAndUserId(Long id, Long userId);
+
     List<PaymentHistoryResponse> loadAllInvoices(String dateData);
 
     List<Invoice> findNewOrderList();
 
     void saveInvoice(OrderRequest orderRequest, List<CartItem> cartItems, User user);
 
-    boolean sendConfirmMail(InvoiceDTO invoiceDTO,Integer status,String reason);
+    boolean sendConfirmMail(InvoiceDTO invoiceDTO, Integer status, String reason);
 
     boolean cancelInvoice(InvoiceDTO invoice);
 }
